@@ -1,13 +1,61 @@
+
 <mat-toolbar>
-  <button mat-icon-button>
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span>Angular challenge</span>
+  <span>Jobsity challenge</span>
   <span class="spacer"></span>
+
   <button mat-button (click)="openReminderForm()">
-   <mat-icon>add</mat-icon> New reminder
- </button>
+    <mat-icon>add</mat-icon> New reminder
+  </button>
+
 </mat-toolbar>
 
 <!-- Create the calendar here -->
 <!-- ======================== -->
+
+<div class="center-container wrapper-calendar">
+
+  <!-- Navigation buttons -->
+  <mat-toolbar color="primary" style="padding: 1.5em 0">
+
+    <button mat-icon-button (click)="changeMonth(-1)">
+      <mat-icon>navigate_before</mat-icon>
+    </button>
+
+    <div style="width: 20%">
+      <h1>{{ dateSelect | date:'yyyy'}}</h1>
+      <h2>{{ dateSelect | date:'MMMM' }}</h2>
+    </div>
+
+    <button mat-icon-button (click)="changeMonth(1)">
+      <mat-icon>navigate_next</mat-icon>
+    </button>
+
+  </mat-toolbar>
+
+  <!-- Weeks and days of the month -->
+  <div>
+    <div class="header-calendar">
+
+    </div>
+
+    <ol>
+      <li *ngFor="let day of week" class="day-name">{{ day }}</li>
+
+
+      <li *ngFor="let day of monthDaysSelected; let first = first"
+          (click)="clickOnDay(day)" [style.gridColumnStart]="first ? day?.indexWeek : 'auto'" class="numberDay" [ngClass]=" (day?.indexWeek === 1 || day?.indexWeek === 7)? 'weekend':'workdays'">
+
+          <div class="center-container relative">
+            <span>{{day?.value}}</span>
+            <span *ngIf="day?.isRemenderHere" class="float">
+              <mat-icon>event_note</mat-icon>
+            </span>
+
+          </div>
+
+      </li>
+    </ol>
+
+  </div>
+
+</div>

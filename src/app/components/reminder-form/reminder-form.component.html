@@ -1,1 +1,75 @@
-<p>Reminder form will be here :)</p>
+
+<h2 mat-dialog-title>{{this.data.isNew ? 'New Reminder' : 'Edit Reminder'}}</h2>
+
+<div *ngIf="!listcountry; else reminderform" class="spinner">
+  <mat-spinner></mat-spinner>
+</div>
+
+<ng-template #reminderform>
+
+  <form [formGroup]="reminderForm" (ngSubmit)="onSubmit()">
+
+    <p>Description</p>
+    <mat-form-field appearance="fill">
+      <input matInput formControlName="description" placeholder="Reminder (30 characters max)" />
+      <mat-error *ngIf="reminderForm.get('description').invalid" >
+        The reminder is required and can't have more than 30 characters.
+      </mat-error>
+    </mat-form-field>
+    <br>
+
+    <p>Date</p>
+    <mat-form-field appearance="fill">
+      <input matInput formControlName="dateTime" [matDatepicker]="picker" placeholder="Date" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="reminderForm.get('dateTime').invalid">
+        The date is required.
+      </mat-error>
+    </mat-form-field>
+
+    <p>Time (HH:MM)</p>
+    <mat-form-field appearance="fill">
+      <input matInput formControlName="time" placeholder="Time" type="time"/>
+      <mat-error *ngIf="reminderForm.get('time').invalid">
+        The time is required.
+      </mat-error>
+    </mat-form-field>
+
+    <p *ngIf="data.isNew || !data?.reminder.country">Country</p>
+    <p *ngIf="!data.isNew && data?.reminder.country">Country: {{data?.reminder.country?.name}}</p>
+    <mat-form-field appearance="fill">
+      <mat-label>country</mat-label>
+      <mat-select formControlName="country" (ngModelChange)="onCountrySelected($event)">
+        <mat-option *ngFor="let country of listcountry" [value]="country">
+          {{country.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <span *ngIf="countrySelected && listCity || listcountry && !data.isNew && data?.reminder.city">
+      <p *ngIf="data.isNew || !data?.reminder.city">City</p>
+      <p *ngIf="!data.isNew && data?.reminder.city">City: {{data?.reminder.city?.name}}</p>
+      <mat-form-field appearance="fill">
+
+        <mat-label>City</mat-label>
+        <mat-select formControlName="city" (ngModelChange)="onCitySelected($event)" >
+          <mat-option *ngFor="let city of listCity" [value]="city">
+            {{city.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="reminderForm.get('city').invalid">
+          The city is required.
+        </mat-error>
+      </mat-form-field>
+
+    </span>
+
+    <div class="actions">
+      <button mat-button type="button" mat-dialog-close>Cancel</button>
+      <button mat-button color="primary" type="submit" [disabled]="reminderForm.invalid">{{this.data.isNew ? 'Add' : 'Edit'}}</button>
+    </div>
+  </form>
+
+</ng-template>

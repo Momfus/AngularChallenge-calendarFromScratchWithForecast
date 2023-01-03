@@ -1,3 +1,119 @@
 .spacer {
   flex: 1 1 auto;
 }
+
+
+.wrapper-calendar{
+  margin: auto;
+  border: solid 1px #eaeaea;
+  box-shadow: 0 0 10px #e4e4e4;
+
+  max-width: 80vw;
+}
+
+.center-container {
+
+  mat-toolbar {
+    justify-content: center;
+  }
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+div {
+  text-align: center;
+  width: 100%;
+  font-family: "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+ol {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  font-size: 1.5ch;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.numberDay{
+    cursor: pointer;
+    border: 1px solid #eee;
+    height: 80px;
+  }
+
+  &.weekend {
+    background-color: lightgray;
+  }
+
+  &.workdays {
+    background-color: white;
+  }
+
+
+}
+li:hover{
+  font-weight: 600;
+
+  &.numberDay
+  {
+    background-color: lightblue;
+  }
+
+}
+
+h2 {
+  margin-bottom: 4px;
+  padding: 0;
+}
+
+.first-day {
+  grid-column-start: var(--first-day-start, 0);
+}
+
+.day-name {
+  background: #eee;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 4px;
+  text-align: center;
+}
+
+.header-calendar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+}
+
+.header-calendar h1 {
+  width: 100%;
+  font-size: 13px;
+}
+
+.header-calendar button {
+  cursor: pointer;
+  background-color: transparent;
+  border: 0;
+}
+
+.relative {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.float {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0.25rem;
+}
+

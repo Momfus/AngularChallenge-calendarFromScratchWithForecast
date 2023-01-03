@@ -1,0 +1,75 @@
+<h1>{{myDay?.name}} - {{ myDateSelect | date:'MMMM'}} {{myDay?.value}}</h1>
+
+<div *ngIf="isLoading || dataSource === undefined ; else reminderTable" class="spinner">
+  <mat-spinner></mat-spinner>
+</div>
+
+<ng-template #reminderTable>
+
+  <div style="height: 248px; overflow-y: scroll;">
+    <mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="time">
+        <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>
+        <mat-cell *matCellDef="let reminder"> {{ reminder.time }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+        <mat-cell *matCellDef="let reminder"> {{ reminder.description }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="city">
+        <mat-header-cell *matHeaderCellDef> City </mat-header-cell>
+        <mat-cell *matCellDef="let reminder">
+          <ng-container *ngIf="reminder.city">{{reminder.country.name}}, {{ reminder.city.name }}</ng-container>
+          <ng-container *ngIf="!reminder.city">No City Info</ng-container>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="forecast">
+        <mat-header-cell *matHeaderCellDef> Forecast </mat-header-cell>
+        <mat-cell *matCellDef="let reminder">
+          <ng-container *ngIf="reminder.forecast">
+            <div class="forecast">
+              <span>Min: {{reminder.forecast.min | number: '1.0-0'}}ºC</span>
+              <span>Max: {{reminder.forecast.max | number: '1.0-0'}}ºC</span>
+              <span>Humidity: {{reminder.forecast.humidity}}%</span>
+              <img [src]="reminder.forecast.weather.icon" alt='current weather icon'> {{reminder.forecast.weather.type}}
+              <span>{{reminder.forecast.weather.description | titlecase}}</span>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!reminder.forecast">No forecast info</ng-container>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let reminder">
+          <button (click)="editReminder(reminder)" mat-icon-button color="primary">
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button (click)="deleteReminder(reminder)" mat-icon-button color="warn">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns;  sticky: true"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+  </div>
+
+  <br>
+  <div mat-dialog-actions>
+    <div style="display: flex; justify-content: end;">
+    <button mat-button (click)="closeModal(refreshAfterClose)">Close</button>
+    <button mat-button color="primary" (click)="newReminder()">
+      <mat-icon>add</mat-icon> New reminder
+    </button>
+    </div>
+  </div>
+
+</ng-template>

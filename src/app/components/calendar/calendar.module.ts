@@ -6,6 +6,7 @@ import { CalendarComponent } from './calendar.component';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { ReminderFormComponent } from '../reminder-form/reminder-form.component';
 import { ReminderFormModule } from '../reminder-form/reminder-form.module';
+import { ReminderListModule } from '../reminder-list/reminder-list.module';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { ReminderFormModule } from '../reminder-form/reminder-form.module';
     CalendarRoutingModule,
     SharedModule,
     ReminderFormModule,
+    ReminderListModule
   ],
   entryComponents: [ReminderFormComponent],
 })
